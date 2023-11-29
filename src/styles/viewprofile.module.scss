@@ -1,0 +1,48 @@
+@import './variables.module.scss';
+.viewprofiledetails{
+    color: white !important;
+}
+.viewprofileheading{
+    color: white !important;
+    display: flex;
+    justify-content: center;
+}
+.characterimage{
+    height: 300px !important;
+    width: 300px !important;
+    border-radius: 50%;
+    border: 4px solid $secondary-color;
+}
+.viewprofilepage{
+    color: white;
+    padding: 16px;
+    display:flex;
+    justify-content:center;
+    flex-direction:column
+}
+.viewprofileimagecontainer{
+    display: flex;
+    justify-content: center;
+}
+.characterepisodeheading{
+    color: white;
+
+}
+.characterdetailcol{
+    padding: 10px;
+    border: 2px solid $primary-color;
+}
+.viewprofilecharactername{
+    color: $secondary-color !important;
+    display: flex;
+    justify-content: center;
+}
+.characterfeaturedepisodelink{
+    color:$primary-color !important;
+}
+.characterepisodeheading{
+    color:$secondary-color !important;
+    font-size: 24px;
+    width: 100%;
+    padding: 10px 0;
+}

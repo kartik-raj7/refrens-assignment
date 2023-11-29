@@ -1,0 +1,35 @@
+body{
+  margin: 0;
+  background-color: black;
+}
+.ant-card-bordered{
+  border: 3px solid #06afc8 !important;
+  }
+  .ant-card{
+    background:url('/galaxy.jpg') !important;
+
+  }
+
+  .ant-pagination-item{
+    background-color: #06afc8 !important;
+  }
+  .ant-pagination-item-ellipsis{
+    color: #06afc8 !important;
+  }
+  .ant-pagination-options-size-changer{
+    display: none !important;
+  }
+  .ant-pagination .ant-pagination-item-active{
+      border-color: white !important;
+      
+    
+  }
+  .ant-pagination .ant-pagination-item-active a{
+    color: white !important;
+    
+  
+}
+.ant-select{
+  width: 90% !important;
+}
+

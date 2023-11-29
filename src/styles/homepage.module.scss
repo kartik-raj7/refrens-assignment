@@ -1,0 +1,39 @@
+@import './variables.module.scss';
+.homepagecharactercardcontainer{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.homepagecontainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+}
+.homepagefilters{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.homepageselect{
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    @media (max-width:$mobile-screen) {
+        padding: 1px 0;
+    }
+}
+.homepagesearch{
+    padding: 10px 0;
+    @media (max-width:$mobile-screen) {
+        padding-bottom: 15px;
+    }
+}
+.homepageshowfilters{
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
