@@ -1,29 +1,55 @@
-import { Card, Col, Image, Row, Tag } from 'antd'
-import style from '../../styles/charactercard.module.scss'
-import { getStatusColor } from '../../utils/getStatusColors'
-import { useNavigate } from 'react-router-dom'
-const CharacterCard = ({loading,data}) => {
-  const navigate=useNavigate();
-  const viewCharacterPage=()=>{
-    navigate(`/viewprofile/character=${data.name}`, { state: data });
-  }
-  return (
-    <div className={style.charactercard} onClick={viewCharacterPage}>
-    <Card title={<Image src={data.image} alt='character' preview={false} className={style.characterimage}/>}>
-        <Row>
-            <Col span={24} className={style.charactername}>{data.name}</Col>
-            <Col span={24} className={`${style.characterstatus} `} style={{color:getStatusColor(data.status)}}> {data.status}
-</Col>      <Col span={24} className={style.characterdetailrow}>
-            <Col span={12} className={style.characterspecies}>{data.species}</Col>
-            <Col span={12} className={style.charactergender}><Tag color={data.gender=='Male'?'blue':'pink'}>{data.gender}</Tag></Col>
-            </Col>
-        </Row>
-    </Card>
-    </div>
-  )
-}
+/* eslint-disable react/prop-types */
+import { Card, Col, Image, Row, Tag } from "antd";
+import style from "../../styles/card.module.scss";
+import { getStatusColor } from "../../utils/getStatusColors";
+import { useNavigate } from "react-router-dom";
 
-export default CharacterCard
+const CharacterCard = ({ data }) => {
+  const navigate = useNavigate();
+  const viewCharacterPage = () => {
+    navigate(`/viewprofile/character=${data.name}`, { state: data });
+  };
+  return (
+    <div className={style.card} onClick={viewCharacterPage}>
+      <Card
+        title={
+          <Image
+            src={data.image}
+            alt="character"
+            preview={false}
+            className={style.cardimage}
+          />
+        }
+      >
+        <Row>
+          <Col span={24} className={style.cardname}>
+            {data.name}
+          </Col>
+          <Col
+            span={24}
+            className={`${style.cardstatus} `}
+            style={{ color: getStatusColor(data.status) }}
+          >
+            {" "}
+            {data.status}
+          </Col>{" "}
+          <Col span={24} className={style.carddetailrow}>
+            <Col span={12} className={style.cardspecies}>
+              {data.species}
+            </Col>
+            <Col span={12} className={style.cardgender}>
+              <Tag color={data.gender == "Male" ? "blue" : "pink"}>
+                {data.gender}
+              </Tag>
+            </Col>
+          </Col>
+        </Row>
+      </Card>
+    </div>
+  );
+};
+
+export default CharacterCard;
 /*
   <Card
     style={{
