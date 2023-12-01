@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
+import React from "react";
 import { Card, Col, Image, Row, Tag } from "antd";
 import style from "../../styles/card.module.scss";
-import image from "/rickmorty.webp";
 const EpisodeCard = ({ data }) => {
   return (
     <div className={style.card}>
       <Card
         title={
           <Image
-            src={image}
+            src="/rickmorty.webp"
             alt="character"
             preview={false}
             className={style.cardimage}
@@ -28,8 +28,10 @@ const EpisodeCard = ({ data }) => {
           </Col>
           <Col span={24} className={style.carddetailrow}>
             <Col span={24} className={style.cardcharacters}>
-              Number of Characters
-              <Tag color={"blue"}>{data.characters.length}</Tag>
+              <Col span={20}>Number of Characters</Col>
+              <Col span={4}>
+                <Tag color={"blue"}>{data.characters.length}</Tag>
+              </Col>
             </Col>
           </Col>
         </Row>

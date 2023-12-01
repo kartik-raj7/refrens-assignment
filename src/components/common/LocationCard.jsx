@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
+import React from "react";
 import { Card, Col, Image, Row, Tag } from "antd";
 import style from "../../styles/card.module.scss";
-import image from "/rickmorty.webp";
 const LocationCard = ({ data }) => {
   return (
     <div className={style.card}>
       <Card
         title={
           <Image
-            src={image}
+            src="/rickmorty.webp"
             alt="character"
             preview={false}
             className={style.cardimage}

@@ -26,6 +26,10 @@ const routes = [
     component: lazy(() => import("../../pages/viewepisodes")),
     exact: true,
   },
+  {
+    path: "*",
+    component: lazy(() => import("../../pages/pagenotfound")),
+  },
 ];
 
 export default routes;

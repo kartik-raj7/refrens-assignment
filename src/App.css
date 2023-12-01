@@ -1,5 +1,9 @@
 body{
   margin: 0;
+  background: url('/backgroundstars.avif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
   background-color: black;
 }
 .ant-card-bordered{
@@ -33,3 +37,9 @@ body{
   width: 90% !important;
 }
 
+.ant-result-title{
+  color: #06afc8 !important;
+}
+.ant-result-subtitle{
+  color: #06afc8 !important;
+}

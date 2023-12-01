@@ -1,0 +1,11 @@
+@import './variables.module.scss';
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .pagenotfoundtext{
+    font-size: 32px;
+    color: $primary-color;
+  }
