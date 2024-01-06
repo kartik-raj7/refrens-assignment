@@ -19,31 +19,71 @@ const ViewProfile = () => {
   const [episodesnames, SetEpisodesNames] = useState([]);
   const [originlocationdetails, setOriginLocationDetails] = useState([]);
   const [locationdetails, setLocationDetails] = useState([]);
-
   // Custom hook to extract episode numbers from character data
   const episodes = useExtractEpisodeNumbers(character.episode);
-
+  const renderepisodes = useExtractEpisodeNumbers(character.episode);
   // Function to fetch episodes based on episode numbers
+  const storedEpisodes = localStorage.getItem("episodes");
+  const storedEpisodesArray = JSON.parse(storedEpisodes);
   async function fetchEpisodes() {
     setLoading(true);
     const queryParams = {
-      episodes,
+      ///checking if the storedepisodearray is present if its checking for which episodes need to perfrom api call
+      episodes: storedEpisodesArray
+        ? episodes.filter((episode) => {
+            const isEpisodeInLocalStorage = storedEpisodesArray?.some(
+              (storedEpisode) => storedEpisode.id == episode
+            );
+            return !isEpisodeInLocalStorage;
+          })
+        : episodes,
     };
-    try {
-      const result = await axiosGet(apiRouter.GET_EPISODE_NAMES, queryParams);
-      if (result) {
-        if (episodes.length > 1) {
-          SetEpisodesNames(result.data);
-        } else {
-          SetEpisodesNames([result.data]);
+    ///only perfroming api call when episodes is greater than one
+    if (queryParams.episodes.length > 0) {
+      try {
+        const result = await axiosGet(apiRouter.GET_EPISODE_NAMES, queryParams);
+        if (result) {
+          //handling case where character features in only 1 episode there object is coming so changing it accordingly
+          const newEpisodesData = Array.isArray(result.data) ? result.data : [result.data];
+          if (storedEpisodesArray) {
+            ///here we are checking whether the episode is present or not we dont need it generally but keeping it for verification
+            newEpisodesData.forEach((newEpisode) => {
+              const isNewEpisodeInLocalStorage = !storedEpisodesArray?.some(
+                (storedEpisode) => {
+                  return storedEpisode.id == newEpisode.id;
+                }
+              );
+              console.log(isNewEpisodeInLocalStorage);
+              if (isNewEpisodeInLocalStorage) {
+                //pushing the new episodes in the storedepisodes
+                storedEpisodesArray.push(newEpisode);
+              }
+            });
+            localStorage.setItem(
+              "episodes",
+              JSON.stringify(storedEpisodesArray)
+              ///updating local storage
+            );
+          } else {
+            //if the local storage is empty we are handling the case 
+            console.log(result.data.length);
+            //this case is if character feature in more than one episode
+            if (Array.isArray(result.data) && result.data.length > 0) {
+              localStorage.setItem("episodes", JSON.stringify(result.data));
+            } else if (result.data) {
+              //this case handles if character features in only one episode
+              localStorage.setItem("episodes", JSON.stringify([result.data]));
+            }
+          }
+          setLoading(false);
         }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
     }
   }
-
+  /////////////////////////////////////////////////////////////////////////////////
   // Function to fetch location details (origin or current location) based on URL
   async function fetchLocation(id, type) {
     setLoading(true);
@@ -64,7 +104,22 @@ const ViewProfile = () => {
 
   // useEffect hook to fetch data on initial render
   useEffect(() => {
-    fetchEpisodes();
+    //converted fetch episodes to async await because we are taking data from local storage it will be available after sometime not immediately
+    async function fetchDataAndProcess() {
+      await fetchEpisodes();
+      ///this operation checks for the episodes the character has featured in and forms array of that in episodenamedata
+      const episodenamedata =
+        storedEpisodesArray?.length > 0 &&
+        storedEpisodesArray.filter((characterepisode) =>
+          renderepisodes?.some(
+            (storedEpisode) => storedEpisode == characterepisode.id
+          )
+        );
+      console.log(episodenamedata);
+      ///finally we are setting episodenamedata in the episode names
+      SetEpisodesNames(episodenamedata);
+    }
+    fetchDataAndProcess();
     if (character.origin.url) {
       fetchLocation(getLastDigitsAfterSlash(character.origin.url), "origin");
     }
@@ -131,17 +186,23 @@ const ViewProfile = () => {
         <Row className={style.characterepisodeheading}>
           List of Episodes Featured in:
         </Row>
-        {episodesnames.map((characterepisode, index) => (
-          <Col key={index} className={style.viewprofiledetails} xs={12} lg={8}>
-            {index + 1}.{" "}
-            <Link
-              to={characterepisode.url}
-              className={style.characterfeaturedepisodelink}
+        {episodesnames.length > 0 &&
+          episodesnames.map((characterepisode, index) => (
+            <Col
+              key={index}
+              className={style.viewprofiledetails}
+              xs={12}
+              lg={8}
             >
-              {characterepisode.name}
-            </Link>
-          </Col>
-        ))}
+              {index + 1}.{" "}
+              <Link
+                to={characterepisode.url}
+                className={style.characterfeaturedepisodelink}
+              >
+                {characterepisode.name}
+              </Link>
+            </Col>
+          ))}
       </Row>
     </div>
   );

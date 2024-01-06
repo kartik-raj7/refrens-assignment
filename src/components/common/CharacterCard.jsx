@@ -14,13 +14,18 @@ const CharacterCard = ({ data }) => {
     <div className={style.card} onClick={viewCharacterPage}>
       <Card
         title={
-          <Image
-            src={data?.image}
-            alt="character"
-            preview={false}
-            className={style.cardimage}
-          />
+          <div
+          className={style.cardimagebox}
+          >
+            <Image
+              src={data?.image}
+              alt="character"
+              preview={false}
+              className={style.cardimage}
+            />
+          </div>
         }
+        className={style.charactercard}
       >
         <Row>
           <Col span={24} className={style.cardname}>
